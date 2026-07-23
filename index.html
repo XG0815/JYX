@@ -20,7 +20,6 @@
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
-    /* 头部导航 */
     .header {
       background: #fff;
       box-shadow: 0 4px 20px rgba(0,0,0,0.03);
@@ -87,7 +86,6 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(178, 151, 122, 0.2);
     }
-    /* 首页横幅 */
     .hero {
       text-align: center;
       padding: 3rem 2rem 2rem;
@@ -107,7 +105,6 @@
       margin: 0 auto;
       font-weight: 300;
     }
-    /* 筛选栏 */
     .filter-section {
       display: flex;
       justify-content: center;
@@ -140,7 +137,6 @@
       border-color: #b2977a;
       color: #fff;
     }
-    /* 商品网格 */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -236,7 +232,6 @@
       background: #b2977a;
       color: #fff;
     }
-    /* 页脚 */
     .footer {
       text-align: center;
       padding: 2.5rem 1rem;
@@ -246,7 +241,6 @@
       border-top: 1px solid #e2d7cb;
       margin-top: 2rem;
     }
-    /* 弹窗模态框 */
     .modal {
       display: none;
       position: fixed;
@@ -313,7 +307,6 @@
       padding: 1.2rem;
       border-radius: 20px;
     }
-    /* 移动端适配 */
     @media (max-width:768px){
       .hero h1{font-size:2rem}
       .gallery-grid{grid-template-columns:1fr;padding:1.5rem 1rem;gap:1.5rem}
@@ -373,14 +366,13 @@
 
 <script>
 (function(){
-  // 产品数据源
   const sofas = [
     {
       id: 1,
       name: "#682",
       model: "#682",
       category: "fabric",
-      image: "http://photogzmaz.photo.store.qq.com/psc?/V54Mfzv03v60yZ1kcK8p0VdEzG3gR8Mi/TmEUgtj9EK6.7V8ajmQrENPKoCiM1XzubiTO2HlCpMVcBIyZkwQzOXx1k8cDXp7ULRtkY5SsJqI6H7xmwtYyjmAxtLt*Mi0DmnnzSqOitdQ!/b&bo=QAawBFUIQAYDd7s!&rf=viewer_4&t=5",
+      image: "https://img2.nloln.de/file/BQACAgUAAyEGAASLVN5eAAJj2Gph-QHAQlyPe5knmm-2w_mbxTRiAAK_IAACIU4QV1ODvCxMlJDnPQQ.jpg",
       width: "300cm",
       depth: "102cm"
     }
@@ -393,7 +385,6 @@
   const modalName = document.getElementById('modalName');
   const modalSpecs = document.getElementById('modalSpecs');
 
-  // 渲染产品卡片
   function renderSofas(filter = 'all'){
     const list = filter === 'all' ? sofas : sofas.filter(item => item.category === filter);
     grid.innerHTML = list.map(sofa => `
@@ -412,7 +403,6 @@
       </div>
     `).join('');
 
-    // 卡片点击
     grid.querySelectorAll('.sofa-card').forEach(card=>{
       card.onclick = e=>{
         if(e.target.closest('.detail-btn')) return;
@@ -427,7 +417,6 @@
     })
   }
 
-  // 打开详情弹窗
   function openModal(id){
     const item = sofas.find(s=>s.id == id);
     if(!item) return;
@@ -442,13 +431,11 @@
     document.body.style.overflow = 'hidden';
   }
 
-  // 关闭弹窗
   function closeModal(){
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  // 筛选按钮事件
   document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.onclick = ()=>{
       document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -457,23 +444,19 @@
     }
   })
 
-  // 弹窗关闭绑定
   document.getElementById('closeModalBtn').onclick = closeModal;
   modal.onclick = e=> e.target === modal && closeModal;
 
-  // 咨询弹窗
   function showContactDialog(){
     alert('感谢您关注景怡轩沙发！\n产品顾问为您提供完整图册、尺寸报价与面料色卡。\n咨询热线：13907145038 / 13971548795\n展厅地址：汉口北金马凯旋家居博览城CBD F馆1楼128号，欢迎线下实地体验！');
   }
   document.getElementById('contactBtn').onclick = showContactDialog;
   document.getElementById('modalInquiryBtn').onclick = showContactDialog;
 
-  // ESC快捷键关闭弹窗
   document.addEventListener('keydown',e=>{
     if(e.key === 'Escape' && modal.classList.contains('active')) closeModal();
   })
 
-  // 初始化渲染
   renderSofas();
 })();
 </script>
