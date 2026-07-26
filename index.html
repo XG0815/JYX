@@ -366,6 +366,7 @@
 
 <script>
 (function(){
+  // 两款布艺沙发，#666暂无尺寸数据
   const sofas = [
     {
       id: 1,
@@ -375,6 +376,15 @@
       image: "https://img2.nloln.de/file/BQACAgUAAyEGAASLVN5eAAJj2Gph-QHAQlyPe5knmm-2w_mbxTRiAAK_IAACIU4QV1ODvCxMlJDnPQQ.jpg",
       width: "300cm",
       depth: "102cm"
+    },
+    {
+      id: 2,
+      name: "#666",
+      model: "#666",
+      category: "fabric",
+      image: "https://img2.nloln.de/file/BQACAgUAAyEGAASLVN5eAAJlBWpl-zCsmkYs89xplr4TdkRZu02dAAL3HgACcwQwV0-EO1uomRw4PQQ.jpg",
+      width: "",
+      depth: ""
     }
   ];
 
@@ -390,14 +400,16 @@
     grid.innerHTML = list.map(sofa => `
       <div class="sofa-card" data-id="${sofa.id}">
         <img class="card-img" src="${sofa.image}" alt="${sofa.name}" loading="lazy"
-        onerror="this.src='https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop'">
+        onerror="this.src='https://images.unsplash.com/photo-1616486338812-3dadae4ace?w=600&h=400&fit=crop'">
         <div class="card-content">
           <span class="model-tag"><i class="far fa-bookmark"></i> ${sofa.model}</span>
           <h3 class="sofa-name">${sofa.name}</h3>
+          ${sofa.width || sofa.depth ? `
           <div class="data-row">
-            <span class="data-item"><i class="fas fa-arrows-alt-h"></i> ${sofa.width}</span>
-            <span class="data-item"><i class="fas fa-arrows-alt-v"></i> ${sofa.depth}</span>
+            ${sofa.width ? `<span class="data-item"><i class="fas fa-arrows-alt-h"></i> ${sofa.width}</span>` : ''}
+            ${sofa.depth ? `<span class="data-item"><i class="fas fa-arrows-alt-v"></i> ${sofa.depth}</span>` : ''}
           </div>
+          ` : ''}
           <button class="detail-btn" data-id="${sofa.id}"><i class="fas fa-expand"></i> 查看详细数据</button>
         </div>
       </div>
@@ -423,10 +435,15 @@
     modalImage.src = item.image;
     modalTag.innerHTML = `<i class="far fa-bookmark"></i> ${item.model}`;
     modalName.textContent = item.name;
-    modalSpecs.innerHTML = `
-      <span><i class="fas fa-arrows-alt-h"></i> 长 ${item.width}</span>
-      <span><i class="fas fa-arrows-alt-v"></i> 宽 ${item.depth}</span>
-    `;
+    // 无数据则不渲染规格区域
+    if(item.width || item.depth){
+      modalSpecs.innerHTML = `
+        ${item.width ? `<span><i class="fas fa-arrows-alt-h"></i> 长 ${item.width}</span>` : ''}
+        ${item.depth ? `<span><i class="fas fa-arrows-alt-v"></i> 宽 ${item.depth}</span>` : ''}
+      `;
+    }else{
+      modalSpecs.innerHTML = '<span style="color:#999;">尺寸数据暂未完善</span>';
+    }
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
